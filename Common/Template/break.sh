@@ -5,4 +5,4 @@
 #
 
 ## Stupid password for turbo compromize via BruteForce
-# sudo useradd -m -p $(openssl passwd -1 "password") user
+sudo useradd -m -p $(openssl passwd -1 "password") cedric
