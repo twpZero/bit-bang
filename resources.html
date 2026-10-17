@@ -187,6 +187,10 @@
   .cat-tools   { --card-accent: #f7c948; }
   .cat-optional{ --card-accent: #a06cf0; }
   .cat-lab     { --card-accent: #00e5a0; }
+  .card-meta { display: flex; align-items: center; gap: .5rem; min-width: 0; }
+  .badge { font-family: var(--mono); font-size: .6rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; padding: 2px 6px; border-radius: 2px; line-height: 1.4; flex-shrink: 0; }
+  .badge-lab { background: var(--accent); color: var(--bg); }
+  .badge-ext { border: 1px solid var(--text-dim); color: var(--text-dim); }
   details > summary {
     cursor: pointer;
     font-family: var(--mono);
@@ -257,75 +261,81 @@
     <h2 data-fr="Exercices Pratiques" data-en="Training Exercises">Exercices Pratiques</h2>
     <span class="count">// hands-on labs</span>
   </div>
-  <p class="section-desc" data-fr="Exercices pratiques pour renforcer les concepts. Utilisez votre propre VM ou l'environnement fourni. Chaque lab pointe vers la documentation officielle." data-en="Practical exercises to reinforce concepts. Use your own VM or the provided environment. Each lab links to official documentation.">Exercices pratiques pour renforcer les concepts. Utilisez votre propre VM ou l'environnement fourni. Chaque lab pointe vers la documentation officielle.</p>
+  <p class="section-desc" data-fr="Nos labs guidés tournent sur votre VM, préparée avec setup_vm.sh. Les entraînements externes sont des ressources publiques, sur d'autres sites : ils s'ouvrent dans un nouvel onglet." data-en="Our guided labs run on your own VM, prepared with setup_vm.sh. External training is public material hosted on other sites: it opens in a new tab.">Nos labs guidés tournent sur votre VM, préparée avec setup_vm.sh. Les entraînements externes sont des ressources publiques, sur d'autres sites : ils s'ouvrent dans un nouvel onglet.</p>
 
+  <div id="our-labs" class="section-header" style="margin-top:2rem;">
+    <h2 style="font-size:1rem; color: var(--text-dim);" data-fr="Nos labs" data-en="Our labs">Nos labs</h2>
+  </div>
   <div class="link-grid">
-
-    <!-- Internal labs -->
     <a href="labs/clamav.html" class="link-card cat-lab fade-in">
-      <span class="card-label">Lab · AV</span>
+      <span class="card-meta"><span class="badge badge-lab">LAB</span><span class="card-label">AV</span></span>
       <span class="card-title" data-fr="Installer ClamAV Antivirus — Tutoriel guidé" data-en="Install ClamAV Antivirus — Guided Tutorial">Installer ClamAV Antivirus — Tutoriel guidé</span>
-      <span class="card-url">bit-bang · lab interne</span>
+      <span class="card-url" data-fr="bit-bang · lab interne" data-en="bit-bang · internal lab">bit-bang · lab interne</span>
     </a>
     <a href="labs/suricata.html" class="link-card cat-lab fade-in">
-      <span class="card-label">Lab · IDS</span>
+      <span class="card-meta"><span class="badge badge-lab">LAB</span><span class="card-label">IDS</span></span>
       <span class="card-title" data-fr="Installer Suricata &amp; Activer les Règles — Tutoriel guidé" data-en="Install Suricata &amp; Enable Rules — Guided Tutorial">Installer Suricata &amp; Activer les Règles — Tutoriel guidé</span>
-      <span class="card-url">bit-bang · lab interne</span>
+      <span class="card-url" data-fr="bit-bang · lab interne" data-en="bit-bang · internal lab">bit-bang · lab interne</span>
     </a>
     <a href="labs/sysmon.html" class="link-card cat-lab fade-in">
-      <span class="card-label">Lab · Sysmon · Linux</span>
+      <span class="card-meta"><span class="badge badge-lab">LAB</span><span class="card-label">Sysmon · Linux</span></span>
       <span class="card-title" data-fr="Installer Sysmon pour Linux — Tutoriel guidé" data-en="Install Sysmon for Linux — Guided Tutorial">Installer Sysmon pour Linux — Tutoriel guidé</span>
-      <span class="card-url">bit-bang · lab interne</span>
+      <span class="card-url" data-fr="bit-bang · lab interne" data-en="bit-bang · internal lab">bit-bang · lab interne</span>
     </a>
 
-    <!-- External resources -->
+  </div>
+
+  <div id="external-training" class="section-header" style="margin-top:2rem;">
+    <h2 style="font-size:1rem; color: var(--text-dim);" data-fr="Entraînements externes" data-en="External training">Entraînements externes</h2>
+  </div>
+  <div class="link-grid">
     <a href="https://bots.splunk.com/event/3oQ7sqI5bajOCP43o0svqT/detail" target="_blank" rel="noopener" class="link-card cat-tools fade-in">
-      <span class="card-label">SIEM · Splunk</span>
+      <span class="card-meta"><span class="badge badge-ext" data-fr="↗ Externe" data-en="↗ External">↗ Externe</span><span class="card-label">SIEM · Splunk</span></span>
       <span class="card-title">Boss of the SOC v1</span>
       <span class="card-url">bots.splunk.com</span>
     </a>
     <a href="https://docs.suricata.io/en/latest/quickstart.html" target="_blank" rel="noopener" class="link-card cat-tools fade-in">
-      <span class="card-label">Lab · IDS</span>
-      <span class="card-title" data-fr="Suricata — Documentation officielle" data-en="Install Suricata &amp; Enable Rules">Suricata — Documentation officielle</span>
+      <span class="card-meta"><span class="badge badge-ext" data-fr="↗ Externe" data-en="↗ External">↗ Externe</span><span class="card-label">IDS</span></span>
+      <span class="card-title" data-fr="Suricata — Documentation officielle" data-en="Suricata — Official Docs">Suricata — Documentation officielle</span>
       <span class="card-url">docs.suricata.io</span>
     </a>
     <a href="https://github.com/microsoft/SysmonForLinux" target="_blank" rel="noopener" class="link-card cat-ms fade-in">
-      <span class="card-label">Lab · Sysmon · Linux</span>
+      <span class="card-meta"><span class="badge badge-ext" data-fr="↗ Externe" data-en="↗ External">↗ Externe</span><span class="card-label">Sysmon · Linux</span></span>
       <span class="card-title">Install Sysmon for Linux</span>
       <span class="card-url">github.com/microsoft/SysmonForLinux</span>
     </a>
     <a href="https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon" target="_blank" rel="noopener" class="link-card cat-ms fade-in">
-      <span class="card-label">Lab · Sysmon · Windows</span>
+      <span class="card-meta"><span class="badge badge-ext" data-fr="↗ Externe" data-en="↗ External">↗ Externe</span><span class="card-label">Sysmon · Windows</span></span>
       <span class="card-title">Install Sysmon for Windows</span>
       <span class="card-url">learn.microsoft.com</span>
     </a>
     <a href="https://www.elastic.co/downloads/elasticsearch" target="_blank" rel="noopener" class="link-card cat-tools fade-in">
-      <span class="card-label">Lab · SIEM</span>
+      <span class="card-meta"><span class="badge badge-ext" data-fr="↗ Externe" data-en="↗ External">↗ Externe</span><span class="card-label">SIEM</span></span>
       <span class="card-title" data-fr="Transmettre les logs → Elasticsearch" data-en="Forward Logs → Elasticsearch">Transmettre les logs → Elasticsearch</span>
       <span class="card-url">elastic.co</span>
     </a>
     <a href="https://www.splunk.com/en_us/download/splunk-enterprise.html" target="_blank" rel="noopener" class="link-card cat-tools fade-in">
-      <span class="card-label">Lab · SIEM</span>
+      <span class="card-meta"><span class="badge badge-ext" data-fr="↗ Externe" data-en="↗ External">↗ Externe</span><span class="card-label">SIEM</span></span>
       <span class="card-title" data-fr="Transmettre les logs → Splunk Enterprise" data-en="Forward Logs → Splunk Enterprise">Transmettre les logs → Splunk Enterprise</span>
       <span class="card-url">splunk.com</span>
     </a>
     <a href="https://github.com/SigmaHQ/sigma" target="_blank" rel="noopener" class="link-card cat-mitre fade-in">
-      <span class="card-label">Lab · Detection</span>
+      <span class="card-meta"><span class="badge badge-ext" data-fr="↗ Externe" data-en="↗ External">↗ Externe</span><span class="card-label">Detection</span></span>
       <span class="card-title" data-fr="Dépôt de règles Sigma" data-en="Sigma Rules Repository">Dépôt de règles Sigma</span>
       <span class="card-url">github.com/SigmaHQ/sigma</span>
     </a>
     <a href="https://github.com/SigmaHQ/sigma-cli" target="_blank" rel="noopener" class="link-card cat-mitre fade-in">
-      <span class="card-label">Lab · Detection</span>
+      <span class="card-meta"><span class="badge badge-ext" data-fr="↗ Externe" data-en="↗ External">↗ Externe</span><span class="card-label">Detection</span></span>
       <span class="card-title" data-fr="Sigma CLI — Convertir les règles en requêtes SIEM" data-en="Sigma CLI — Convert Rules to SIEM Queries">Sigma CLI — Convertir les règles en requêtes SIEM</span>
       <span class="card-url">github.com/SigmaHQ/sigma-cli</span>
     </a>
     <a href="https://yara.readthedocs.io/en/latest/" target="_blank" rel="noopener" class="link-card cat-mitre fade-in">
-      <span class="card-label">Lab · Malware</span>
+      <span class="card-meta"><span class="badge badge-ext" data-fr="↗ Externe" data-en="↗ External">↗ Externe</span><span class="card-label">Malware</span></span>
       <span class="card-title" data-fr="Règles YARA — Documentation officielle" data-en="YARA Rules — Official Docs">Règles YARA — Documentation officielle</span>
       <span class="card-url">yara.readthedocs.io</span>
     </a>
     <a href="https://n3nu.medium.com/getting-started-with-yara-a-beginners-guide-to-understanding-and-creating-yara-rules-73bda308fd98" target="_blank" rel="noopener" class="link-card cat-mitre fade-in">
-      <span class="card-label">Lab · Malware</span>
+      <span class="card-meta"><span class="badge badge-ext" data-fr="↗ Externe" data-en="↗ External">↗ Externe</span><span class="card-label">Malware</span></span>
       <span class="card-title" data-fr="Débuter avec les règles YARA — Guide débutant" data-en="Getting Started with YARA Rules — Beginner's Guide">Débuter avec les règles YARA — Guide débutant</span>
       <span class="card-url">medium.com</span>
     </a>
