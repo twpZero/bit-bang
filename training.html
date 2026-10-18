@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bit-Bang Labs — Entraînements</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@300;400;600;700&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:       #0a0c0f;
+    --bg2:      #111418;
+    --bg3:      #181c22;
+    --border:   #1e2530;
+    --accent:   #00e5a0;
+    --accent2:  #0af;
+    --accent3:  #f05a28;
+    --text:     #c8d0dc;
+    --text-dim: #5a6580;
+    --text-hi:  #eef2f8;
+    --mono:     'Share Tech Mono', monospace;
+    --sans:     'Barlow', sans-serif;
+    --cond:     'Barlow Condensed', sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.65;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,.15) 2px, rgba(0,0,0,.15) 4px);
+    pointer-events: none;
+    z-index: 9999;
+  }
+  header {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,12,15,.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex; align-items: center; gap: 2rem;
+    height: 56px;
+  }
+  .logo {
+    font-family: var(--cond);
+    font-weight: 900;
+    font-size: 1.3rem;
+    letter-spacing: .1em;
+    color: var(--accent);
+    text-transform: uppercase;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+  .logo span { color: var(--text-dim); font-weight: 300; }
+  nav { display: flex; gap: 0; margin-left: auto; align-items: center; }
+  nav a {
+    font-family: var(--mono);
+    font-size: .75rem;
+    color: var(--text-dim);
+    text-decoration: none;
+    padding: 0 1rem;
+    height: 56px;
+    display: flex; align-items: center;
+    border-left: 1px solid var(--border);
+    transition: color .2s, background .2s;
+    letter-spacing: .05em;
+  }
+  nav a:hover { color: var(--accent); background: rgba(0,229,160,.04); }
+  nav a.active { color: var(--accent); border-bottom: 2px solid var(--accent); }
+  .hero {
+    padding: 5rem 2rem 4rem;
+    max-width: 1100px; margin: 0 auto;
+  }
+  .hero-tag {
+    font-family: var(--mono);
+    font-size: .7rem;
+    color: var(--accent);
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: flex; align-items: center; gap: .75rem;
+  }
+  .hero-tag::before {
+    content: '';
+    display: inline-block;
+    width: 24px; height: 1px;
+    background: var(--accent);
+  }
+  .hero h1 {
+    font-family: var(--cond);
+    font-weight: 900;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    line-height: 1;
+    color: var(--text-hi);
+    letter-spacing: -.01em;
+    margin-bottom: 1.25rem;
+  }
+  .hero h1 em { font-style: normal; color: var(--accent); }
+  .hero p { max-width: 560px; color: var(--text-dim); font-size: 1rem; line-height: 1.7; }
+  main { max-width: 1100px; margin: 0 auto; padding: 0 2rem 6rem; }
+  .section-header {
+    display: flex; align-items: baseline; gap: 1rem;
+    margin: 3.5rem 0 1.5rem;
+    padding-bottom: .75rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-header h2 {
+    font-family: var(--cond);
+    font-weight: 700;
+    font-size: 1.5rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--text-hi);
+  }
+  .section-header .count { font-family: var(--mono); font-size: .7rem; color: var(--text-dim); letter-spacing: .1em; }
+  .section-desc { color: var(--text-dim); font-size: .9rem; margin-bottom: 1.5rem; max-width: 680px; line-height: 1.6; }
+  .link-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: .75rem;
+  }
+  .link-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: .875rem 1rem;
+    display: flex; flex-direction: column; gap: .3rem;
+    text-decoration: none;
+    position: relative; overflow: hidden;
+    transition: border-color .2s, background .2s, transform .15s;
+  }
+  .link-card::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--card-accent, var(--accent));
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform .2s;
+  }
+  .link-card:hover { border-color: var(--card-accent, var(--accent)); background: var(--bg3); transform: translateY(-1px); }
+  .link-card:hover::before { transform: scaleY(1); }
+  .link-card .card-label { font-family: var(--mono); font-size: .65rem; color: var(--card-accent, var(--accent)); letter-spacing: .12em; text-transform: uppercase; }
+  .link-card .card-title { font-family: var(--sans); font-weight: 600; font-size: .9rem; color: var(--text-hi); line-height: 1.3; }
+  .link-card .card-url { font-family: var(--mono); font-size: .65rem; color: var(--text-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .book-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: .75rem;
+  }
+  .book-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: .875rem 1rem;
+    display: flex; gap: .875rem;
+    align-items: flex-start;
+    transition: border-color .2s, background .2s;
+    cursor: default;
+  }
+  .book-card:hover { border-color: var(--accent3); background: var(--bg3); }
+  .book-isbn {
+    font-family: var(--mono);
+    font-size: .6rem;
+    color: var(--accent3);
+    letter-spacing: .05em;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    flex-shrink: 0;
+    opacity: .7;
+  }
+  .book-info { flex: 1; min-width: 0; }
+  .book-title { font-weight: 600; font-size: .85rem; color: var(--text-hi); line-height: 1.35; margin-bottom: .25rem; }
+  .book-tag { font-family: var(--mono); font-size: .6rem; color: var(--text-dim); letter-spacing: .08em; }
+  .cat-anssi   { --card-accent: #00e5a0; }
+  .cat-nist    { --card-accent: #0af; }
+  .cat-ms      { --card-accent: #7b8cde; }
+  .cat-mitre   { --card-accent: #f05a28; }
+  .cat-tools   { --card-accent: #f7c948; }
+  .cat-optional{ --card-accent: #a06cf0; }
+  .cat-lab     { --card-accent: #00e5a0; }
+  .card-meta { display: flex; align-items: center; gap: .5rem; min-width: 0; }
+  .badge { font-family: var(--mono); font-size: .6rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; padding: 2px 6px; border-radius: 2px; line-height: 1.4; flex-shrink: 0; }
+  .badge-lab { background: var(--accent); color: var(--bg); }
+  .badge-ext { border: 1px solid var(--text-dim); color: var(--text-dim); }
+  details > summary {
+    cursor: pointer;
+    font-family: var(--mono);
+    font-size: .75rem;
+    color: var(--text-dim);
+    letter-spacing: .1em;
+    list-style: none;
+    display: flex; align-items: center; gap: .5rem;
+    padding: .5rem 0;
+    user-select: none;
+    transition: color .2s;
+  }
+  details > summary:hover { color: var(--accent); }
+  details > summary::before { content: '▶'; font-size: .6rem; transition: transform .2s; }
+  details[open] > summary::before { transform: rotate(90deg); }
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 1.5rem 2rem;
+    text-align: center;
+    font-family: var(--mono);
+    font-size: .7rem;
+    color: var(--text-dim);
+    letter-spacing: .08em;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .fade-in { animation: fadeUp .45s ease both; }
+  .fade-in:nth-child(2)  { animation-delay: .05s; }
+  .fade-in:nth-child(3)  { animation-delay: .1s; }
+  .fade-in:nth-child(4)  { animation-delay: .15s; }
+  .fade-in:nth-child(5)  { animation-delay: .2s; }
+  .fade-in:nth-child(6)  { animation-delay: .25s; }
+  .fade-in:nth-child(7)  { animation-delay: .3s; }
+  .fade-in:nth-child(8)  { animation-delay: .35s; }
+.i18n-toggle{display:flex;align-items:center;gap:0;margin-left:1.5rem;border:1px solid var(--accent);border-radius:3px;overflow:hidden;flex-shrink:0;}
+  .i18n-toggle button{background:var(--bg2);border:none;cursor:pointer;font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.12em;color:var(--text-dim);padding:5px 12px;line-height:1;transition:background .15s,color .15s;}
+  .i18n-toggle button.on{background:var(--accent);color:#0a0c0f;}
+  .i18n-toggle button:not(.on):hover{background:var(--bg3);color:var(--accent);}
+  .i18n-toggle .i18n-sep{width:1px;background:var(--accent);align-self:stretch;flex-shrink:0;}
+  .card-prereq { font-family: var(--mono); font-size: .65rem; color: var(--accent); letter-spacing: .05em; }
+  @media (max-width: 760px) {
+    header { height: auto; flex-wrap: wrap; padding: 0 1rem; gap: 0 1rem; min-height: 56px; }
+    nav { order: 3; width: 100%; margin-left: 0; flex-wrap: wrap; gap: 0; border-top: 1px solid var(--border); }
+    nav a { height: 36px; padding: 0 .6rem; white-space: nowrap; }
+    .i18n-toggle { margin-left: auto; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="index.html">Bit-Bang <span>/ Labs</span></a>
+  <nav>
+    <a href="index.html" data-fr="Accueil" data-en="Home">Accueil</a>
+    <a href="index.html#labs" data-fr="Labs" data-en="Labs">Labs</a>
+    <a href="training.html" class="active" data-fr="Entraînements" data-en="Training">Entraînements</a>
+    <a href="resources.html" data-fr="Ressources" data-en="Resources">Ressources</a>
+    <a href="resources.html#books" data-fr="Livres" data-en="Books">Livres</a>
+      <a href="credits.html" data-fr="Crédits" data-en="Credits">Crédits</a>
+  </nav>
+<div class="i18n-toggle"><button id="btn-fr" class="on" onclick="setLang('fr')">FR</button><div class="i18n-sep"></div><button id="btn-en" onclick="setLang('en')">EN</button></div>
+  </header>
+
+<section class="hero">
+  <div class="hero-tag" data-fr="Après les labs" data-en="After the labs">Après les labs</div>
+  <h1><span data-fr="S'entraîner" data-en="Keep">S'entraîner</span><br><em data-fr="en Autonomie" data-en="Practicing">en Autonomie</em></h1>
+  <p data-fr="Des plateformes d'entraînement publiques pour continuer à pratiquer une fois les labs Bit-Bang terminés." data-en="Public training platforms to keep practicing once you have finished the Bit-Bang labs.">Des plateformes d'entraînement publiques pour continuer à pratiquer une fois les labs Bit-Bang terminés.</p>
+</section>
+
+<main>
+
+  <div id="training" class="section-header">
+    <h2 data-fr="Entraînements externes" data-en="External Training">Entraînements externes</h2>
+    <span class="count">// hands-on · external</span>
+  </div>
+  <p class="section-desc" data-fr="Ces exercices ne tournent pas sur votre VM : ils sont hébergés sur d'autres sites et s'ouvrent dans un nouvel onglet. Commencez par les labs Bit-Bang, puis faites l'entraînement qui suit le lab indiqué." data-en="These exercises do not run on your VM: they are hosted on other sites and open in a new tab. Start with the Bit-Bang labs, then do the training that follows the lab shown.">Ces exercices ne tournent pas sur votre VM : ils sont hébergés sur d'autres sites et s'ouvrent dans un nouvel onglet. Commencez par les labs Bit-Bang, puis faites l'entraînement qui suit le lab indiqué.</p>
+
+  <div class="link-grid">
+    <a href="https://overthewire.org/wargames/bandit/" target="_blank" rel="noopener" class="link-card cat-anssi fade-in">
+      <span class="card-meta"><span class="badge badge-ext" data-fr="↗ Externe" data-en="↗ External">↗ Externe</span><span class="card-label">Linux · Wargame</span></span>
+      <span class="card-title">OverTheWire — Bandit</span>
+      <span class="card-prereq" data-fr="Débutant · après Linux 101" data-en="Beginner · after Linux 101">Débutant · après Linux 101</span>
+      <span class="card-url">overthewire.org</span>
+    </a>
+    <a href="https://picoctf.org/" target="_blank" rel="noopener" class="link-card cat-nist fade-in">
+      <span class="card-meta"><span class="badge badge-ext" data-fr="↗ Externe" data-en="↗ External">↗ Externe</span><span class="card-label">CTF · Crypto</span></span>
+      <span class="card-title">picoCTF</span>
+      <span class="card-prereq" data-fr="Débutant · après les labs crypto (PDF chiffré, GPG)" data-en="Beginner · after the crypto labs (encrypted PDF, GPG)">Débutant · après AES / RSA</span>
+      <span class="card-url">picoctf.org</span>
+    </a>
+    <a href="https://bots.splunk.com/event/3oQ7sqI5bajOCP43o0svqT/detail" target="_blank" rel="noopener" class="link-card cat-tools fade-in">
+      <span class="card-meta"><span class="badge badge-ext" data-fr="↗ Externe" data-en="↗ External">↗ Externe</span><span class="card-label">SIEM · Splunk</span></span>
+      <span class="card-title">Boss of the SOC v1</span>
+      <span class="card-prereq" data-fr="Intermédiaire · après Sysmon / Suricata" data-en="Intermediate · after Sysmon / Suricata">Intermédiaire · après Sysmon / Suricata</span>
+      <span class="card-url">bots.splunk.com</span>
+    </a>
+    <a href="https://cyberdefenders.org/blueteam-ctf-challenges/" target="_blank" rel="noopener" class="link-card cat-mitre fade-in">
+      <span class="card-meta"><span class="badge badge-ext" data-fr="↗ Externe" data-en="↗ External">↗ Externe</span><span class="card-label">Blue Team · CTF</span></span>
+      <span class="card-title">CyberDefenders — Blue Team Challenges</span>
+      <span class="card-prereq" data-fr="Intermédiaire · après « Le Trafic Suspect de la Nuit »" data-en="Intermediate · after “The Suspicious Night Traffic”">Intermédiaire · après Flux réseau / Suricata</span>
+      <span class="card-url">cyberdefenders.org</span>
+    </a>
+  </div>
+
+</main>
+
+<footer>
+  Bit-Bang Labs &nbsp;·&nbsp; <span data-fr="Entraînements externes" data-en="External Training">Entraînements externes</span>
+</footer>
+
+<script>
+  (function(){setLang(localStorage.getItem('lang')||'fr');})();
+  function setLang(l){
+    localStorage.setItem('lang',l);
+    document.documentElement.lang=l;
+    document.querySelectorAll('[data-fr][data-en]').forEach(function(e){e.textContent=e.dataset[l];});
+    var f=document.getElementById('btn-fr'),n=document.getElementById('btn-en');
+    if(f&&n){f.classList.toggle('on',l==='fr');n.classList.toggle('on',l==='en');}
+  }
+</script>
+</body>
+</html>

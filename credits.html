@@ -240,6 +240,12 @@
     0%,100%{opacity:1} 92%{opacity:1} 93%{opacity:.4} 95%{opacity:1} 97%{opacity:.6} 98%{opacity:1}
   }
   .section-title { animation: flicker 6s infinite; }
+  @media (max-width: 760px) {
+    header { height: auto; flex-wrap: wrap; padding: 0 1rem; gap: 0 1rem; min-height: 56px; }
+    nav { order: 3; width: 100%; margin-left: 0; flex-wrap: wrap; gap: 0; border-top: 1px solid var(--border); }
+    nav a { height: 36px; padding: 0 .6rem; white-space: nowrap; }
+    .i18n-toggle { margin-left: auto; }
+  }
 </style>
 </head>
 <body>
@@ -249,6 +255,7 @@
   <nav>
     <a href="index.html" data-fr="Accueil" data-en="Home">Accueil</a>
     <a href="index.html#labs" data-fr="Labs" data-en="Labs">Labs</a>
+    <a href="training.html" data-fr="Entraînements" data-en="Training">Entraînements</a>
     <a href="resources.html" data-fr="Ressources" data-en="Resources">Ressources</a>
     <a href="resources.html#books" data-fr="Livres" data-en="Books">Livres</a>
     <a href="credits.html" class="active" data-fr="Crédits" data-en="Credits">Crédits</a>
